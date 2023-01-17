@@ -14,7 +14,10 @@ public class Main {
             tf.setAttribute("package-name", "org.acme");
             tf.setAttribute("destination-directory", "test");
     
-            Files.walk(Path.of("test")).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+            Path test = Path.of("test");
+            if (Files.exists(test)) {
+                Files.walk(test).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+            }
 
             File xslFile = new File(args[0]);
             tf.newTemplates(new StreamSource(Files.newInputStream(xslFile.toPath())));
